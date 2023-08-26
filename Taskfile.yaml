@@ -1,0 +1,63 @@
+version: "3"
+
+# To install Task use:
+# go install github.com/go-task/task/v3/cmd/task@latest
+
+silent: true
+
+tasks:
+  default:
+    desc: "List all tasks"
+    cmds:
+      - task --list-all
+
+  update:
+    desc: "Update everything"
+    deps: [ update:dependencies ]
+
+  update:dependencies:
+    desc: "Update all direct dependencies"
+    aliases:
+      - deps
+    cmds:
+      - go mod tidy
+      - go list -f '{{"{{"}}if not (or .Main .Indirect)}}{{"{{"}}.Path}}{{"{{"}}end}}' -m all | xargs go get
+      - go mod tidy
+
+  format:
+    desc: "Format everything"
+    deps: [ format:imports ]
+
+  format:imports:
+    desc: "Format imports"
+    deps: [ install:gci ]
+    vars:
+      MODULE:
+        sh: go list -m
+      FILES:
+        sh: go list -f '{{"{{"}}.Dir{{"}}"}}' ./...
+    cmds:
+      - go mod tidy
+      - go fmt ./...
+      - >
+        gci write
+        --skip-generated
+        --section standard
+        --section default
+        --section "prefix(github.com/telle-bots)"
+        --section "prefix({{.MODULE}})"
+        {{.FILES}}
+
+  build:
+    desc: "Build lib"
+    cmds:
+      - go build ./...
+
+  install:
+    desc: "Install everything"
+    deps: [ install:gci ]
+
+  install:gci:
+    desc: "Install gci"
+    cmds:
+      - go install github.com/daixiang0/gci@latest
