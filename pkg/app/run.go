@@ -35,7 +35,7 @@ func Run(app *cli.App) {
 		if errors.Is(err, context.Canceled) {
 			return
 		}
-		_, _ = fmt.Fprintf(os.Stderr, "FATAL: %s", err)
+		_, _ = fmt.Fprintf(os.Stderr, "FATAL: %s\n", err)
 		os.Exit(1)
 	}
 }

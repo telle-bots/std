@@ -2,7 +2,11 @@ module github.com/telle-bots/std
 
 go 1.21
 
-require github.com/urfave/cli/v2 v2.25.7
+require (
+	github.com/mymmrac/mdi v0.1.1
+	github.com/sony/sonyflake v1.2.0
+	github.com/urfave/cli/v2 v2.25.7
+)
 
 require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect

@@ -33,8 +33,8 @@ tasks:
     deps: [ install:gci ]
     vars:
       MODULE:
-        sh: go list -m
-      FILES:
+        sh: go mod edit -fmt -print | head -n 1 | cut -d " " -f 2
+      GO_DIRS:
         sh: go list -f '{{"{{"}}.Dir{{"}}"}}' ./...
     cmds:
       - go mod tidy
@@ -46,7 +46,7 @@ tasks:
         --section default
         --section "prefix(github.com/telle-bots)"
         --section "prefix({{.MODULE}})"
-        {{.FILES}}
+        {{splitList "\n" .GO_DIRS | join " "}}
 
   build:
     desc: "Build lib"
