@@ -15,3 +15,15 @@ type Command interface {
 	// Stop command
 	Stop()
 }
+
+// Start runner
+func Start(run Runner) error {
+	return run.Start()
+}
+
+// AddCommand to run
+func AddCommand[C Command]() func(Runner, C) {
+	return func(run Runner, command C) {
+		run.Add(command)
+	}
+}
