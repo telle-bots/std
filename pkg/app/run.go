@@ -14,6 +14,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+// Run starts CLI app
 func Run(app *cli.App) {
 	if app.Usage == "" {
 		app.Usage = "CLI application"
@@ -40,6 +41,7 @@ func Run(app *cli.App) {
 	}
 }
 
+// updateVersionInfo updates app's version info
 func updateVersionInfo(app *cli.App) {
 	info, ok := debug.ReadBuildInfo()
 	if !ok {

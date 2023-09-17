@@ -3,20 +3,32 @@ package app
 import "github.com/urfave/cli/v2"
 
 const (
+	// CategorySettings general settings
 	CategorySettings = "Settings"
-	CategorySecrets  = "Secrets"
+	// CategorySecrets secrets
+	CategorySecrets = "Secrets"
 )
 
 var (
-	FlagHTTPPort = &cli.StringFlag{
+	// FlagServiceName service name
+	FlagServiceName = &cli.StringFlag{
+		Name:     "service-name",
+		Usage:    "Service name",
+		EnvVars:  []string{"SERVICE_NAME"},
+		Category: CategorySettings,
+		Required: true,
+	}
+
+	// FlagHTTPPort HTTP server port
+	FlagHTTPPort = &cli.UintFlag{
 		Name:     "http-port",
 		Usage:    "HTTP server port",
 		EnvVars:  []string{"HTTP_PORT"},
 		Category: CategorySettings,
-		Value:    "8080",
+		Value:    8080,
 	}
-	_ cli.Flag = FlagHTTPPort
 
+	// FlagPostgres PostgreSQL connection URL
 	FlagPostgres = &cli.StringFlag{
 		Name:     "postgres-connection-url",
 		Usage:    "PostgreSQL connection URL",
@@ -24,5 +36,4 @@ var (
 		Category: CategorySecrets,
 		Required: true,
 	}
-	_ cli.Flag = FlagPostgres
 )
